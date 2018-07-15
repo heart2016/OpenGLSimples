@@ -16,6 +16,7 @@ public class ShaderProgram {
     // 这里定义的都是  uniform的变量名
     protected static final String U_MATRIX = "u_Matrix";
     protected static final String U_TEXTURE_UNIT = "u_TextureUnit";
+    protected static final String U_COLOR = "u_Color";
 
     //这定义的都是  attribute的变量
     protected static final String A_POSITION = "a_Position";

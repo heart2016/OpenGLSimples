@@ -7,7 +7,8 @@ precision mediump float;
 //一个uniform 会让每个顶点都使用同一个值，除非我们再次改变它。
 //uniform vec4 u_Color;
 
-varying vec4 v_Color;
+//varying vec4 v_Color;
+uniform mat4 u_Color;
 
 //这里就要知道varying和uniform 区别。  un
 // uniform不会变，是一条直线的颜色定义
@@ -18,6 +19,7 @@ varying vec4 v_Color;
 //着色器一定要给gl_FragColor赋值
 void main(){
 //gl_FragColor
-    gl_FragColor = v_Color;
+//    gl_FragColor = v_Color;
+    gl_FragColor = u_Color;
 
 }

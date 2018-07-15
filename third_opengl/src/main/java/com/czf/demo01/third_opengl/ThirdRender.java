@@ -7,6 +7,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 import com.czf.demo01.third_opengl.models.Mallet;
+import com.czf.demo01.third_opengl.models.Puck;
 import com.czf.demo01.third_opengl.models.Table;
 import com.czf.demo01.third_opengl.programs.ColorShaderProgram;
 import com.czf.demo01.third_opengl.programs.TextureShaderProgram;
@@ -18,6 +19,11 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static android.opengl.Matrix.multiplyMM;
+import static android.opengl.Matrix.rotateM;
+import static android.opengl.Matrix.setIdentityM;
+import static android.opengl.Matrix.translateM;
+
 public class ThirdRender implements GLSurfaceView.Renderer {
     private final String TAG = getClass().getSimpleName();
     private Context context;
@@ -28,6 +34,12 @@ public class ThirdRender implements GLSurfaceView.Renderer {
 
     private final float[] projectMatrix = new float[16];
     private final  float[] modeMatrix = new float[16];
+
+    private final float[] viewMatrix = new float[16];
+    private final float[] viewProjectMatrix = new float[16];
+    private final  float[] modelViewProjectMatrix = new float[16];
+
+    private Puck puck;
 
     //纹理id
     private int textureID;
@@ -43,8 +55,8 @@ public class ThirdRender implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0f,0,0,0);
 
         table = new Table();
-        mallet = new Mallet();
-
+        mallet = new Mallet(0.08f,0.15f,32);
+        puck = new Puck(0.06f,0.02f,32);
         textureShaderProgram = new TextureShaderProgram(context);
         colorShaderProgram = new ColorShaderProgram(context);
 
@@ -60,10 +72,13 @@ public class ThirdRender implements GLSurfaceView.Renderer {
         Log.e(TAG, "==onSurfaceChanged==》" + Thread.currentThread().getName());
         //告诉OpenGL窗口是怎么映射的
         GLES20.glViewport(0, 0, width, height);
-
         //定义三位的宽高比
         OpenGlUtil.perspectiveMatrix(projectMatrix,45f,width*1.0f/height,1f,10f);
-        //填满
+
+        Matrix.setLookAtM(viewMatrix,0,0f,1.2f,2.2f,
+                0f,0f,0f,0f,
+                1f,0f);
+       /* //填满
         Matrix.setIdentityM(modeMatrix,0);
         //这个是沿 z  轴平移-2
 //        Matrix.translateM(translateMatrix,0,0,0,-2f);
@@ -76,7 +91,7 @@ public class ThirdRender implements GLSurfaceView.Renderer {
         //矩阵相乘
         Matrix.multiplyMM(temp,0,projectMatrix,0,modeMatrix,0);
         //复制temp数组到 matrixFloats
-        System.arraycopy(temp,0,projectMatrix,0,temp.length);
+        System.arraycopy(temp,0,projectMatrix,0,temp.length);*/
 
 
     }
@@ -84,15 +99,46 @@ public class ThirdRender implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+
+        Matrix.multiplyMM(viewProjectMatrix,0,projectMatrix,0,viewMatrix,0);
+
+        positionTableInScene();
+
         textureShaderProgram.useProgram();
         textureShaderProgram.setUniforms(projectMatrix,textureID);
         table.bindData(textureShaderProgram);
         table.draw();
 
+        positionObjectInScene(0f,mallet.height/2,-0.4f);
         colorShaderProgram.useProgram();
-        colorShaderProgram.setUniform(projectMatrix);
+        colorShaderProgram.setUniform(projectMatrix,1f,0f,0f);
         mallet.bindData(colorShaderProgram);
         mallet.draw();
 
+        positionObjectInScene(0f,mallet.height/2,0.4f);
+        colorShaderProgram.useProgram();
+        colorShaderProgram.setUniform(projectMatrix,0f,0f,1f);
+        mallet.bindData(colorShaderProgram);
+        mallet.draw();
+
+        positionObjectInScene(0f,puck.height/2,0.4f);
+        colorShaderProgram.setUniform(modelViewProjectMatrix,0.8f,0.8f,1f);
+        puck.bindData(colorShaderProgram);
+        puck.draw();
+    }
+
+    private void positionTableInScene() {
+        Matrix.setIdentityM(modeMatrix, 0);
+        Matrix.rotateM(modeMatrix, 0, -90f, 1f, 0f, 0f);
+        Matrix.multiplyMM(modelViewProjectMatrix, 0, viewProjectMatrix,
+                0, modeMatrix, 0);
+    }
+
+    // The mallets and the puck are positioned on the same plane as the table.
+    private void positionObjectInScene(float x, float y, float z) {
+        Matrix.setIdentityM(modeMatrix, 0);
+        Matrix.translateM(modeMatrix, 0, x, y, z);
+        Matrix.multiplyMM(modelViewProjectMatrix, 0, viewProjectMatrix,
+                0, modeMatrix, 0);
     }
 }
