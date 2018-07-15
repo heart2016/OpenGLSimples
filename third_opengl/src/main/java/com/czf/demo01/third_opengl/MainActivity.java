@@ -1,13 +1,10 @@
-package com.czf.second_opengl;
+package com.czf.demo01.third_opengl;
 
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-/**
- * 这个例子学习openGL着色器的作用。
- */
-public class SecondActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     private GLSurfaceView glSurfaceView;
     private GLSurfaceView.Renderer renderer;
     private boolean renderSet;
@@ -17,12 +14,12 @@ public class SecondActivity extends AppCompatActivity {
         if (OpenGlUtil.isSupportOpenGL2(this)){
             glSurfaceView = new GLSurfaceView(this);
             glSurfaceView.setEGLContextClientVersion(2);
-            renderer = new SecondRender(this);
+            renderer = new ThirdRender(this);
             glSurfaceView.setRenderer(renderer);
             setContentView(glSurfaceView);
             renderSet = true;
         }else {
-            setContentView(R.layout.activity_second);
+            setContentView(R.layout.activity_main);
         }
 
     }

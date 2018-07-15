@@ -1,4 +1,4 @@
-package com.czf.second_opengl;
+package com.czf.demo01.third_opengl;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -6,12 +6,9 @@ import android.content.pm.ConfigurationInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
-import android.opengl.GLES30;
 import android.opengl.GLUtils;
 import android.os.Build;
 import android.util.Log;
-
-import javax.microedition.khronos.opengles.GL;
 
 public class OpenGlUtil {
     private final static String TAG = "OpenGlUtil";
