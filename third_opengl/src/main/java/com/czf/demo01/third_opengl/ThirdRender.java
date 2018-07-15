@@ -121,7 +121,7 @@ public class ThirdRender implements GLSurfaceView.Renderer {
         mallet.bindData(colorShaderProgram);
         mallet.draw();
 
-        positionObjectInScene(0f,puck.height/2,0.4f);
+        positionObjectInScene(0f,puck.height/2,0);
         colorShaderProgram.setUniform(modelViewProjectMatrix,0.8f,0.8f,1f);
         puck.bindData(colorShaderProgram);
         puck.draw();
@@ -134,7 +134,6 @@ public class ThirdRender implements GLSurfaceView.Renderer {
                 0, modeMatrix, 0);
     }
 
-    // The mallets and the puck are positioned on the same plane as the table.
     private void positionObjectInScene(float x, float y, float z) {
         Matrix.setIdentityM(modeMatrix, 0);
         Matrix.translateM(modeMatrix, 0, x, y, z);
