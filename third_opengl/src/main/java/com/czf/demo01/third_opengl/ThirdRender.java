@@ -57,6 +57,7 @@ public class ThirdRender implements GLSurfaceView.Renderer {
         table = new Table();
         mallet = new Mallet(0.08f,0.15f,32);
         puck = new Puck(0.06f,0.02f,32);
+
         textureShaderProgram = new TextureShaderProgram(context);
         colorShaderProgram = new ColorShaderProgram(context);
 
