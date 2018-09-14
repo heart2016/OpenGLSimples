@@ -6,6 +6,4 @@ package com.czf.demo01.third_opengl;
 
 public class Constants {
     public static final int BYTE_PER_FLOAT = 4;
-
-
 }

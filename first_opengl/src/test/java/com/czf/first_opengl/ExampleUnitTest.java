@@ -1,5 +1,8 @@
 package com.czf.first_opengl;
 
+import android.test.MoreAsserts;
+import android.test.TouchUtils;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,5 +16,7 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+        assertFalse(true);
+        assertSame("1","1");
     }
 }

@@ -3,6 +3,8 @@ package com.czf.demo01.third_opengl;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.test.MoreAsserts;
+import android.test.mock.MockContext;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView glSurfaceView;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
         }
 
+//        MockContext
+//        MoreAsserts
     }
 
     @Override
