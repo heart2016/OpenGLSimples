@@ -213,7 +213,8 @@ public class SecondRender implements GLSurfaceView.Renderer {
         linkedObjectId = OpenGlUtil.linkShaderSource(vertexObjectId,fragmentObjectId);
         OpenGlUtil.validateLinked(linkedObjectId);
 
-        //表示绘制任何OPGL，都必须使用这个对象，linkderObjectId指向的对象
+        //表示绘制任何OPGL，都必须使用这个对象，linkderObjectId指向的对象,
+        //后面的绘制代码就是使用上面编译生成的代码指令：linkedObjectId
         GLES20.glUseProgram(linkedObjectId);
 
 
@@ -229,6 +230,11 @@ public class SecondRender implements GLSurfaceView.Renderer {
 
         //第一个点
         nativePoints.position(0);
+
+
+        //通知OpenGL从哪里调用数据  启用定点句柄
+        GLES20.glEnableVertexAttribArray(aPosition);
+
         /**
          *第一个参数：index：上面获取的位置
          * 第二个参数：size：这里表示的就是每一个顶点会传递几个分量进入，不会超过四个分量，所谓分量就是是三维还是二维的
@@ -239,19 +245,19 @@ public class SecondRender implements GLSurfaceView.Renderer {
          */
        /* GLES20.glVertexAttribPointer(aPosition,POSITION_COMPONENT_COUNT,
                 GLES20.GL_FLOAT,false,0,nativePoints);*/
-
-        GLES20.glVertexAttribPointer(aPosition,POSITION_COMPONENT_COUNT,GLES20.GL_FLOAT,
-                false,STRIDE,nativePoints);
-
-
-
-        //通知OpenGL从哪里调用数据
-        GLES20.glEnableVertexAttribArray(aPosition);
-
+        // 准备：定点数据
+        GLES20.glVertexAttribPointer(
+                aPosition,  //   1
+                POSITION_COMPONENT_COUNT,  // 2 表示二维
+                GLES20.GL_FLOAT,   //  3
+                false,  //  4
+                STRIDE,   //    5
+                nativePoints);  //  6
         //这个是
         nativePoints.position(POSITION_COMPONENT_COUNT);
+        //启用颜色句柄
         GLES20.glEnableVertexAttribArray(aColorLocation);
-        //这第二个变量表示：颜色是三维向量的
+        //这第二个变量表示：颜色是三维向量的   这个是准备：颜色数据
         GLES20.glVertexAttribPointer(aColorLocation,COLOR_COMPONENT_COUNT,GLES20.GL_FLOAT,
                 false,STRIDE,nativePoints);
     }
@@ -260,7 +266,7 @@ public class SecondRender implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         Log.e(TAG,"==onSurfaceChanged==》"+Thread.currentThread().getName());
-        //告诉OpenGL窗口是怎么映射的
+        //告诉OpenGL窗口是怎么映射的  ，  表示图形绘制的区域。
         GLES20.glViewport(0,0,width,height);
 
        /*  这个只是加了二位的宽高比重新定义
@@ -272,7 +278,7 @@ public class SecondRender implements GLSurfaceView.Renderer {
             Matrix.orthoM(matrixFloats,0,-1f,1f,-widthHeightRadio,widthHeightRadio,-1f,1f);
         }*/
 
-       //定义三位的宽高比
+       //定义三维的宽高比
         OpenGlUtil.perspectiveMatrix(matrixFloats,45f,width*1.0f/height,1f,10f);
         //填满
         Matrix.setIdentityM(translateMatrix,0);
@@ -284,9 +290,10 @@ public class SecondRender implements GLSurfaceView.Renderer {
         Matrix.rotateM(translateMatrix,0,-45f,1f,0,0);
 
         final  float[] temp = new float[16];
-        //矩阵相乘
+        //矩阵相乘  相乘生成的数据放入temp中。从0开始放入
+        // matrixFloats 从0位开始   和  translateMatrix从0位开始
         Matrix.multiplyMM(temp,0,matrixFloats,0,translateMatrix,0);
-        //复制temp数组到 matrixFloats
+        //复制temp数组到 matrixFloats  复制
         System.arraycopy(temp,0,matrixFloats,0,temp.length);
     }
 

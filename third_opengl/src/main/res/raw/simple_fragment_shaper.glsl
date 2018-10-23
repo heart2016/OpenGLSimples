@@ -8,6 +8,8 @@ precision mediump float;
 //uniform vec4 u_Color;
 
 //varying vec4 v_Color;
+
+
 uniform mat4 u_Color;
 
 //这里就要知道varying和uniform 区别。  un

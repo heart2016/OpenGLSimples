@@ -23,7 +23,7 @@ public class ShaderProgram {
     protected static final String A_COLOR = "a_Color";
     protected static final String A_TEXTURE_COORDINATES = "a_TextureCoordinates";
 
-    // 获得编译链接了得  可执行的对象的id
+    // 获得编译链接了得  可执行的对象的id  program：这个就是代码地址指令
     protected final int program;
     protected ShaderProgram(Context context, int vertexShaderResourceId,
                             int fragmentShaderResourceId) {

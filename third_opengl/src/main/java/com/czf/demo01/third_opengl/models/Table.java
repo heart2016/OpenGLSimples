@@ -17,12 +17,12 @@ public class Table {
             (POSITION_COMPONENT_COUNT + TEXTURE_COORDINATES_COMPONENT_COUNT) * Constants.BYTE_PER_FLOAT;
     private static final float[] VERTEX_DATA = {
 //            X         Y           S           T   记住S T  是纹理坐标  纹理绘制 0.1 -0.9  表示只会绘制中间部分
-            0f, 0f, 0.5f, 0.5f,
-            -0.5f, -0.8f, 0f, 0.9f,
-            0.5f, -0.8f, 1f, 0.9f,
-            0.5f, 0.8f, 1f, 0.1f,
-            -0.5f, 0.8f, 0f, 0.1f,
-            -0.5f, -0.8f, 0f, 0.9f,
+             0f,        0f,        0.5f,       0.5f,
+            -0.5f,     -0.8f,      0f,         0.9f,
+             0.5f,     -0.8f,      1f,         0.9f,
+             0.5f,      0.8f,      1f,         0.1f,
+            -0.5f,      0.8f,      0f,         0.1f,
+            -0.5f,     -0.8f,      0f,         0.9f,
     };
 
     private final VertexArray vertexArray;
@@ -39,7 +39,6 @@ public class Table {
                 shaderProgram.getPositionLocation(),
                 POSITION_COMPONENT_COUNT,
                 STRIDE
-
         );
 
         vertexArray.setVertexAttributePoint(

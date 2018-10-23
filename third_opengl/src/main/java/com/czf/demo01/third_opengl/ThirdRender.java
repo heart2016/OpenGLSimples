@@ -50,11 +50,11 @@ public class ThirdRender implements GLSurfaceView.Renderer {
     }
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-//        Log.e(TAG,"==onSurfaceCreated==》"+Thread.currentThread().getName());
         //清楚颜色，这个就是把颜色清楚为黑色。rgb都是0就是黑色
         GLES20.glClearColor(0f,0,0,0);
 
         table = new Table();
+
         mallet = new Mallet(0.08f,0.15f,32);
         puck = new Puck(0.06f,0.02f,32);
 
@@ -62,8 +62,6 @@ public class ThirdRender implements GLSurfaceView.Renderer {
         colorShaderProgram = new ColorShaderProgram(context);
 
         textureID = OpenGlUtil.readTexture(context,R.drawable.air_hockey_surface);
-
-
 
     }
 

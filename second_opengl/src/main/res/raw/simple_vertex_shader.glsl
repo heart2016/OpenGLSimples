@@ -24,6 +24,4 @@ void main(){
 
     //增加顶点的颜色向量
     v_Color = a_Color;
-
-
 }

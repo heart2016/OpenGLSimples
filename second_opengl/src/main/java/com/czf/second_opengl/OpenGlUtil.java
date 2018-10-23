@@ -37,7 +37,8 @@ public class OpenGlUtil {
         return compileShader(GLES20.GL_FRAGMENT_SHADER,source);
     }
 
-    //编译 glsl 里面的源代码
+    //编译 glsl 里面的源代码  编译的代码会生成一个内存地址。
+    // 返回的地址就会只是一个地址ID
     private static int compileShader(int type,String source){
         //创建一个着色器对象，并且返回对象的id。相当于地址，
         //后面想用这个对象，只需要把id传回OpenGL就可以啦，返回0表示创建失败
