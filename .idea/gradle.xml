@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/first_opengl" />
+            <option value="$PROJECT_DIR$/one_hello_triangle" />
             <option value="$PROJECT_DIR$/openglintro" />
             <option value="$PROJECT_DIR$/second_opengl" />
             <option value="$PROJECT_DIR$/third_opengl" />
