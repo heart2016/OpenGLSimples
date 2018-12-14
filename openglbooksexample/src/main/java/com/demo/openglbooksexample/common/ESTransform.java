@@ -42,7 +42,11 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class ESTransform {
+    private float[] mMatrix = new float[16];
+    private FloatBuffer mMatrixFloatBuffer;
+
     public ESTransform() {
+        //表示  16个数据  4*4 的矩阵  4个字节。所以计算的来是64个字节。
         mMatrixFloatBuffer = ByteBuffer.allocateDirect(16 * 4)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
     }
@@ -147,23 +151,31 @@ public class ESTransform {
             return;
         }
 
-        frust[0 * 4 + 0] = 2.0f * nearZ / deltaX;
-        frust[0 * 4 + 1] = frust[0 * 4 + 2] = frust[0 * 4 + 3] = 0.0f;
+        frust[0 * 4 + 0] = 2.0f * nearZ / deltaX;  //  0
+        frust[0 * 4 + 1] = frust[0 * 4 + 2] = frust[0 * 4 + 3] = 0.0f;  //1
 
-        frust[1 * 4 + 1] = 2.0f * nearZ / deltaY;
-        frust[1 * 4 + 0] = frust[1 * 4 + 2] = frust[1 * 4 + 3] = 0.0f;
+        frust[1 * 4 + 1] = 2.0f * nearZ / deltaY;  //5
+        frust[1 * 4 + 0] = frust[1 * 4 + 2] = frust[1 * 4 + 3] = 0.0f;  //4  6  7
 
-        frust[2 * 4 + 0] = (right + left) / deltaX;
-        frust[2 * 4 + 1] = (top + bottom) / deltaY;
+        //第三行
+        frust[2 * 4 + 0] = (right + left) / deltaX;  //  0
+        frust[2 * 4 + 1] = (top + bottom) / deltaY;   //
         frust[2 * 4 + 2] = -(nearZ + farZ) / deltaZ;
         frust[2 * 4 + 3] = -1.0f;
 
+        //  第四行
         frust[3 * 4 + 2] = -2.0f * nearZ * farZ / deltaZ;
         frust[3 * 4 + 0] = frust[3 * 4 + 1] = frust[3 * 4 + 3] = 0.0f;
 
         matrixMultiply(frust, mMatrix);
     }
 
+    /**
+     * @param fovy  视图的角度
+     * @param aspect  宽高比
+     * @param nearZ  最近
+     * @param farZ  最远
+     */
     public void perspective(float fovy, float aspect, float nearZ, float farZ) {
         float frustumW;
         float frustumH;
@@ -195,10 +207,11 @@ public class ESTransform {
         matrixMultiply(orthoMat, mMatrix);
     }
 
+    //矩阵相乘
     public void matrixMultiply(float[] srcA, float[] srcB) {
         float[] tmp = new float[16];
         int i;
-
+        //i  表示的就是i行
         for (i = 0; i < 4; i++) {
             tmp[i * 4 + 0] = (srcA[i * 4 + 0] * srcB[0 * 4 + 0])
                     + (srcA[i * 4 + 1] * srcB[1 * 4 + 0])
@@ -259,7 +272,6 @@ public class ESTransform {
         return mMatrix;
     }
 
-    private float[] mMatrix = new float[16];
-    private FloatBuffer mMatrixFloatBuffer;
+
 
 }
