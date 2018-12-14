@@ -6,5 +6,7 @@ in vec4 vPosition;
 void main(){
 //gl_Position   这个是一个特殊的变量，记者就行，每个顶点着色器必须在gl_Position变量中
 // 输出一个位置。gl_Position:这个变量会传递到下一个流程项。
+    gl_PointSize = 100.0f;
     gl_Position = vPosition;
+//    gl_PointSize = 20;
 }

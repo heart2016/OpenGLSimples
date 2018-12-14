@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.demo.openglbooksexample">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".six_01.Example6_3"/>
+        <activity android:name=".six_02.Example6_6"/>
+        <activity android:name=".six_03.MapBuffers"/>
+        <activity android:name=".six_04.VAO"/>
+        <activity android:name=".six_05.VBO"/>
+
+        <activity android:name=".eight.SimpleVertexShader"/>
+
+        <activity android:name=".nine_01.MipMap2D"/>
+        <activity android:name=".nine_02.SimpleTexture2D"/>
+        <activity android:name=".nine_03.SimpleTextureCubemap"/>
+        <activity android:name=".nine_04.TextureWrap"/>
+
+        <activity android:name=".ten.MultiTexture"/>
+
+        <activity android:name=".fourteen.ParticleSystem"/>
+
+    </application>
+
+</manifest>

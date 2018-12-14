@@ -11,6 +11,11 @@ struct flogStruct{
 };
 void main(){
   flogStruct mFlogStruct = flogStruct(vec2(1.0,2.0),3.0,4.0);
-            //颜色值 R, G,  B, A
-  fragColor = vec4(1.0,0.0,0.0,1.0);
+               //颜色值 R, G,  B, A
+     fragColor = vec4(1.0,0.0,0.0,1.0);
+//  if(gl_Position.x > 0 && gl_Position.y > 0){
+//    fragColor = vec4(1.0,0.0,0.0,1.0);
+//  }else {
+//    fragColor = vec4(1.0,1.0,0.0,1.0);
+//  }
 }
