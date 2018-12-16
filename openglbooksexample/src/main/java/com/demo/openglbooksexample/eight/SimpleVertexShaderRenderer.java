@@ -42,12 +42,17 @@ package com.demo.openglbooksexample.eight;
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.os.SystemClock;
 import android.util.Log;
 
 import com.demo.openglbooksexample.common.ESShader;
 import com.demo.openglbooksexample.common.ESShapes;
 import com.demo.openglbooksexample.common.ESTransform;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -73,6 +78,8 @@ public class SimpleVertexShaderRenderer implements GLSurfaceView.Renderer {
     private int mWidth;
     private int mHeight;
     private long mLastTime = 0;
+
+    private float[] resultFs = new float[16];
 
     public SimpleVertexShaderRenderer(Context context) { }
 
@@ -137,8 +144,15 @@ public class SimpleVertexShaderRenderer implements GLSurfaceView.Renderer {
         GLES30.glVertexAttrib4f(1, 1.0f, 0.0f, 0.0f, 1.0f);
 
         // Load the MVP matrix  使用变换的矩阵。 给统一变量赋值。
-        GLES30.glUniformMatrix4fv(mMVPLoc, 1, false,
-                mMVPMatrix.getAsFloatBuffer());
+//        GLES30.glUniformMatrix4fv(mMVPLoc, 1, false,
+//                mMVPMatrix.getAsFloatBuffer());
+
+        FloatBuffer floatBuffer = ByteBuffer.allocateDirect(resultFs.length * 4)
+                .order(ByteOrder.nativeOrder()).asFloatBuffer().put(resultFs);
+        floatBuffer.position(0);
+
+        GLES30.glUniformMatrix4fv(mMVPLoc,1,false,
+               floatBuffer);
 
         // Draw the cube
         GLES30.glDrawElements(GLES30.GL_TRIANGLES, mCube.getNumIndices(),
@@ -179,25 +193,40 @@ public class SimpleVertexShaderRenderer implements GLSurfaceView.Renderer {
         //最近是1.0f   最远才是20.0f
         perspective.perspective(60.0f, aspect, 1.0f, 20.0f);
 
+        float[] perspectiveFs = new float[16];
+        //初始化矩阵，这个就是把 对角线的元素置为1.0f ， 其他置为0.0f
+        Matrix.setIdentityM(perspectiveFs,0);
+
+        Matrix.perspectiveM(perspectiveFs,0,60.0f,aspect,1.0f,20.0f);
+
+//        Matrix.frustumM(perspectiveFs,0,);
+
+        float[] modelFs = new float[16];
+
         // Generate a model view matrix to rotate/translate the cube
         //生成一个模型视图矩阵来旋转/平移立方体
         modelview.matrixLoadIdentity();
 
+        Matrix.setIdentityM(modelFs,0);
         // Translate away from the viewer
         //模型矩阵的移动
         modelview.translate(0.0f, 0.0f, -2.0f);
 
+        Matrix.translateM(modelFs,0,0,0,-2.0f);
         // Rotate the cube
         //模型矩阵的旋转
         modelview.rotate(mAngle, 1.0f, 0.0f, 1.0f);
-
+        Matrix.setRotateM(modelFs,0,mAngle,1.0f,0.0f,1.0f);
         // Compute the final MVP by multiplying the
         // modevleiw and perspective matrices together
         //矩阵相乘    也就是  模型矩阵  和  视图矩阵相乘  ===  投影矩阵
         // 模型矩阵： 这个就是建立模型的矩阵，世界坐标，起始就是建里模型的坐标
         // 视图矩阵：
         //  投影矩阵：起始就是在屏幕上显示的 矩阵
-        mMVPMatrix.matrixMultiply(modelview.get(), perspective.get());
+//        mMVPMatrix.matrixMultiply(modelview.get(), perspective.get());
+//        mMVPMatrix.matrixMultiply(modelFs, perspectiveFs);
+
+        Matrix.multiplyMV(resultFs,0,modelFs,0,perspectiveFs,0);
 
         /**
         1. Object or model coordinates  模型坐标或者物体坐标，坐标系物体某点建立的世界坐标系。
@@ -218,6 +247,9 @@ public class SimpleVertexShaderRenderer implements GLSurfaceView.Renderer {
 
          常用四个坐标：世界坐标，物体坐标，设备坐标  视图坐标
          */
+
+
+
     }
 
 
