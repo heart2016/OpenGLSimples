@@ -103,15 +103,32 @@ public class OneTriangleRender  implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES30.glViewport(0,0,mWidth,mHeight);
+        GLES30.glDepthRangef(0.5F,0.5F);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
         GLES30.glUseProgram(mProgramObject);
 
-
+        //设置线宽
+        GLES30.glLineWidth(20);
         GLES30.glVertexAttribPointer ( 0, 3, GLES30.GL_FLOAT, false, 0, vertices );
 
         GLES30.glEnableVertexAttribArray ( 0 );
 
+//        GLES30.glFrontFace(mode);
+//        GLES30.glCullFace(mode);
+//        GLES30.glPolygonOffset();
+
+//        GLES30.glBeginQuery(target,id);
+//        GLES30.GL_ANY_SAMPLES_PASSED;
+//        GLES30.GL_ANY_SAMPLES_PASSED_CONSERVATIVE;
+//        GLES30.GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+//        GLES30.glEndQuery(target);
+//
+//        GLES30.glGenQueries(n,arrayInts,offset);
+//        GLES30.glDeleteQueries(n,arraysInts,offset);
+
+
         //first：在顶点数组中那个点开始绘制，count：绘制几个数组。
+
         GLES30.glLineWidth(2);
         GLES30.glDrawArrays ( GLES30.GL_LINE_LOOP, 0, 7 );
 
@@ -119,9 +136,21 @@ public class OneTriangleRender  implements GLSurfaceView.Renderer {
         GLES30.glEnableVertexAttribArray(0);
         
         GLES30.glDrawArrays(GLES30.GL_POINTS,0,7);
+
+//        GLES30.glDrawArrays ( GLES30.GL_TRIANGLE_STRIP, 0, 7 );
+//        GLES30.glLineWidth(2);
+        GLES30.glDrawArrays ( GLES30.GL_POINTS, 0, 7 );
+        GLES30.glDrawArrays ( GLES30.GL_LINE_LOOP, 0, 7 );
+
 //        GLES30.glDrawElements();
 //        GLES30.glDrawArraysInstanced();
 //        GLES30.glDrawRangeElements();
 //        GLES30.glDrawElementsInstanced();
+
+//        GLES30.glEnable(GLES30.GL_PRIMITIVE_RESTART_FIXED_INDEX);
+//
+//        GLES30.glDisable(GLES30.GL_PRIMITIVE_RESTART_FIXED_INDEX);
+//
+//        GLES30.glViewport(x,y,mWidth,mHeight);
     }
 }
