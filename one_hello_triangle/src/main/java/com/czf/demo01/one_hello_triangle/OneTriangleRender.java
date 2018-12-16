@@ -112,12 +112,16 @@ public class OneTriangleRender  implements GLSurfaceView.Renderer {
         GLES30.glEnableVertexAttribArray ( 0 );
 
         //first：在顶点数组中那个点开始绘制，count：绘制几个数组。
-//        GLES30.glDrawArrays ( GLES30.GL_TRIANGLE_STRIP, 0, 7 );
         GLES30.glLineWidth(2);
-        GLES30.glDrawArrays ( GLES30.GL_LINE_STRIP, 0, 7 );
-        GLES30.glDrawElements();
-        GLES30.glDrawArraysInstanced();
-        GLES30.glDrawRangeElements();
-        GLES30.glDrawElementsInstanced();
+        GLES30.glDrawArrays ( GLES30.GL_LINE_LOOP, 0, 7 );
+
+        gl.glPointSize(100f);
+        GLES30.glEnableVertexAttribArray(0);
+        
+        GLES30.glDrawArrays(GLES30.GL_POINTS,0,7);
+//        GLES30.glDrawElements();
+//        GLES30.glDrawArraysInstanced();
+//        GLES30.glDrawRangeElements();
+//        GLES30.glDrawElementsInstanced();
     }
 }

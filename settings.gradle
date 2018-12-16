@@ -1,1 +1,1 @@
-include ':first_opengl', ':second_opengl', ':third_opengl', ':openglintro', ':one_hello_triangle'
+include ':first_opengl', ':second_opengl', ':third_opengl', ':openglintro', ':one_hello_triangle', ':opengl_point_demo'
